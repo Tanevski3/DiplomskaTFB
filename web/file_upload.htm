@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Home</title>
+</head>
+<body>
+<h1>Welcome to my upload</h1>
+<h2>
+	Upload
+</h2>
+<form action="http://127.0.0.1:4040/upload" enctype="multipart/form-data" method="POST">
+        <input type="file" name="upload_file" multiple="multiple" />
+        <input type="submit" name="Submit" />
+    </form>
+File uploaded: 
+   {{ out(final123); }}
+</body>
+</html>

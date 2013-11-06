@@ -1,0 +1,16 @@
+{
+  "publicWebFolder": "/web",
+  "favicon" :"/web/favicon.ico" ,
+  "page404" :"/web/404.htm" ,
+  "session": {
+    "timeout" : 10
+    },
+  "port": "4040",
+  "hostname": "127.0.0.1",
+  "couchDb": {
+    "hostname": "127.0.0.1",
+    "port": 5984,
+    "user": "admin",
+    "pass": "admin"
+    }
+}

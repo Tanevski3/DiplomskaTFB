@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)file:///C:/Users/Marjan/Desktop/admin.htm -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Bootstrap, from Twitter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="http://127.0.0.1:4040/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+      .blu_row{
+	  background-color:#0075B0;
+	  color: white;
+	  }
+	   tbody tr {
+	     cursor: pointer;
+		}
+
+    </style>
+    <link href="http://127.0.0.1:4040/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://getbootstrap.com/2.3.2/assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://getbootstrap.com/2.3.2/assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://getbootstrap.com/2.3.2/assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="http://getbootstrap.com/2.3.2/assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="http://getbootstrap.com/2.3.2/assets/ico/favicon.png">
+  <meta name="chromesniffer" id="chromesniffer_meta" content="{}"><script type="text/javascript" src="chrome-extension://homgcnaoacgigpkkljjjekpignblkeae/detector.js"></script><meta name="chromesniffer" id="chromesniffer_meta"><script type="text/javascript" src="chrome-extension://homgcnaoacgigpkkljjjekpignblkeae/detector.js"></script><style>[touch-action="none"]{ -ms-touch-action: none; touch-action: none; }[touch-action="pan-x"]{ -ms-touch-action: pan-x; touch-action: pan-x; }[touch-action="pan-y"]{ -ms-touch-action: pan-y; touch-action: pan-y; }[touch-action="scroll"],[touch-action="pan-x pan-y"],[touch-action="pan-y pan-x"]{ -ms-touch-action: pan-x pan-y; touch-action: pan-x pan-y; }</style></head>
+
+  <body cz-shortcut-listen="true" style="">
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="http://getbootstrap.com/2.3.2/examples/fluid.html#">Admin panel</a>
+          <div class="nav-collapse collapse">
+            <p class="navbar-text pull-right">
+              Logged in as <a href="http://getbootstrap.com/2.3.2/examples/fluid.html#" class="navbar-link">Username</a>
+            </p>
+            
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Dashboard</li>
+              <li class="active"><a href="http://getbootstrap.com/2.3.2/examples/fluid.html#">Users</a></li>
+              <li><a href="http://getbootstrap.com/2.3.2/examples/fluid.html#">Items</a></li>
+              <li><a href="http://getbootstrap.com/2.3.2/examples/fluid.html#">Categories</a></li>
+              
+              <li class="nav-header">Sidebar</li>
+              <li><a href="http://getbootstrap.com/2.3.2/examples/fluid.html#">Link</a></li>
+              
+              
+              
+              
+              
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        
+        <div class="span9">
+		<div class="btn-group">
+ 		 <button id="new_btn" class="btn" data-toggle="modal">New</button>
+  		 <button id="edit_btn" class="btn" data-toggle="modal">Edit</button>
+ 		 <button id="delete_btn" class="btn" data-toggle="modal">Delete</button>
+		</div>
+		<br>
+		
+		<div id="new_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="new_user_modal_label" aria-hidden="true">
+  			<div class="modal-header">
+    			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    			<h4 id="new_user_modal_label">Create a new user</h4>
+  			</div>
+  			<div class="modal-body">
+  			<form>
+    			<label for="first_name_input">First name:</label> <input required="" id="first_name_input" type="text" placeholder="Enter your name...">
+    			<label for="last_name_input">Last name:</label> <input id="last_name_input" type="text" placeholder="Enter your family name...">
+    			<label for="email_input">Email:</label> <input id="email_input" type="text" placeholder="Email goes here...">
+    			<label for="username_input">Username:</label> <input id="username_input" type="text" placeholder="Enter your username...">
+    			<label for="image_input">Image:</label> <input id="image_input" type="text" placeholder="Image url maybe...">
+    			<label for="info_input">Info:</label> <input id="info_input" type="text" placeholder="More about you...">
+    			</form>
+  			</div>
+  			<div class="modal-footer">
+    			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    			<button id="save_btn" class="btn btn-primary">Save changes</button>
+  			</div>
+		</div>
+		
+		<div id="delete_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="delete_user_modal_label" aria-hidden="true" style="display: none;">
+  			<div class="modal-body">
+    			<p>Are you sure you want to delete this items?</p>
+  			</div>
+  			<div class="modal-footer">
+    			<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    			<button id="yes_btn" class="btn btn-danger" data-dismiss="modal">Yes</button>
+  			</div>
+		</div>
+
+		<p></p>         
+ <table class="table table-bordered">
+          <thead>
+          <tr>
+				  <td>#</td>
+                  <td>First name</td>
+                  <td>Last name</td>
+                  <td>Email</td>
+                  <td>Username</td>
+                  <td>Image</td>
+                  <td>Info</td>
+          </tr>
+          </thead>
+          <tbody>
+                <tr class="">
+                  <td>1</td>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>mark@otto.com</td>
+                  <td>@mdo</td>
+                  <td>mark.png</td>
+                  <td>Mark Otto is a ... </td>
+                </tr>
+                <tr class="blu_row">
+                  <td>2</td>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+                  <td>jacob@thornton.com</td>
+                  <td>@fat</td>
+                  <td>jacob.png</td>
+                  <td>Jacob Thornton is a... </td>
+                </tr>
+                
+                  </tbody>
+          <tfoot>
+          </tfoot>
+          </table>
+          <div class="alert">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <strong>Warning!</strong> Best check yo self, you're not looking too good.
+</div>
+<a href="http://127.0.0.1:4040/admin#" class="btn btn-primary">Save changes</a>
+
+                
+          
+          </div>
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>© Electronix 2013</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  	<script type="text/javascript">
+
+  	$(function(){
+  	    var makeRow = function(){
+
+         if($('table').children('tbody').children('tr').hasClass('blu_row')){
+            $('#delete_btn').removeAttr('disabled');
+            }
+            else{
+              $('#delete_btn').attr('disabled','disabled');
+            }
+            if($('table').children('tbody').children('.blu_row').length === 1 && $('table').children('tbody').children('.blu_row').length !== 0){
+            $('#edit_btn').removeAttr('disabled');
+            }
+            else{
+              $('#edit_btn').attr('disabled','disabled');
+          }
+        }
+  	  // table click listener that handles the color change and button availability
+  		$('table').children('tbody').children('tr').on('click',function(){
+  		$(this).toggleClass('blu_row')
+      makeRow();
+  		});
+  		
+  		$('#new_btn').on('click',function(ev){
+  			$('#new_modal').modal('toggle');
+  		});
+  		$('#edit_btn').on('click',function(ev){
+  			$('#edit_modal').modal('toggle');
+  		});
+
+  		var itemsToRemove = {};
+  		$('#delete_btn').on('click',function(ev){
+  			$('#delete_modal').modal('toggle');
+  			itemsToRemove = $('.blu_row');
+  		});
+
+		  $('#yes_btn').on('click',function(){
+			 $('.blu_row').remove();
+		  });
+
+       $('#save_btn').on('click',function(){
+        if($('table').children('tbody').has('tr') === true){
+           $('table').children('tbody').children('tr').last().after(
+                   "<tr>" +
+                     "<td>" + 1 +"</td>" +
+                     "<td>"+$('#last_name_input').val()+"</td>" +
+                     "<td>"+$('#email_name_input').val()+"</td>" +
+                     "<td>"+$('#username_input').val()+"</td>" +
+                     "<td>"+$('#image_input').val()+"</td>" +
+                     "<td>"+$('#first_name_input').val()+"</td>" +
+                     "<td>"+$('#info_input').val()+" </td>" +
+                   "</tr>"
+           );
+        }else{
+            $('table').children('tbody').append(
+                   "<tr>" +
+                     "<td>" + 1 +"</td>" +
+                     "<td>"+$('#last_name_input').val()+"</td>" +
+                     "<td>"+$('#email_name_input').val()+"</td>" +
+                     "<td>"+$('#username_input').val()+"</td>" +
+                     "<td>"+$('#image_input').val()+"</td>" +
+                     "<td>"+$('#first_name_input').val()+"</td>" +
+                     "<td>"+$('#info_input').val()+" </td>" +
+                   "</tr>"
+           );
+           
+        }
+
+      $('table').children('tbody').children('tr').last().on('click',function(){
+          $(this).toggleClass('blu_row');
+          makeRow();
+      });
+    $('#new_modal').modal('hide');
+    });
+$(".alert").alert();
+    });
+  	</script>
+
+</body></html>
