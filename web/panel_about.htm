@@ -81,13 +81,61 @@
               <li id="nav_users" ><a href="panel_users.htm">Users</a></li>
               <li id="nav_items"><a href="panel_items.htm">Items</a></li>
               <li id="nav_categories"><a href="panel_categories.htm">Categories</a></li>
-              <li id="nav_about"><a href="panel_about.htm">About</a></li>
+              <li class="active" id="nav_about"><a href="panel_about.htm">About</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
         <script type="text/javascript"> 
 
         </script>
+        <div class="span9">
+		<br>
+
+		<p></p>   
+
+        <form id="about_form" data-rev="{{ out(about._rev); }}" >
+          <label for="address_input">Address:</label> <input required id="address_input" type="text" placeholder="Enter address..." {{ out('value="' + about.address + '" >'); }}
+          <label for="description_input">Description:</label> <textarea rows="5" columns="10" id="description_input" type="text" placeholder="Enter your family name..."> {{ out(about.description); }}</textarea>
+          <label for="email_input">Email:</label> <input required min="3" id="email_input" type="text" placeholder="Email goes here..." {{ out('value="' + about.email + '" >'); }}
+          <label for="fax_input">Fax:</label> <input required min="3" id="fax_input" type="text" placeholder="Fax..." {{ out('value="' + about.fax + '" >'); }}
+          <label for="phone_input">Phone:</label> <input required min="3" id="phone_input" type="text" placeholder="Phone..." {{ out('value="' + about.phone + '" >'); }} <br><br>
+                    <button id="save_btn" class="btn btn-primary">Save changes</button>
+          </form>
+
+<div class="alert alert-error" style="display:none;" >
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <strong>Warning!</strong> Best check yo self, you're not looking too good.
+</div>
+
+<div class="alert alert-info" style="display:none;" >
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+</div>
+
+<div class="alert alert-success" style="display:none;" >
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <strong>Well done!</strong> You successfully read this important alert message.
+</div>
+         
+    <div id="sure_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="sure_modal_label" aria-hidden="true" style="display: none;">
+        <div class="modal-body">
+          <p>Are you sure you want to update about?</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+          <button id="yes_btn" class="btn btn-danger" data-dismiss="modal">Yes</button>
+        </div>
+    </div>       
+          
+          </div>
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>© Electronix 2013</p>
+      </footer>
 
     </div><!--/.fluid-container-->
 
@@ -96,6 +144,54 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-  
+  	<script type="text/javascript">
+
+
+  	$(document).ready(function() {
+
+      /* hiding initial elements */
+      $('div.alert.alert-error').hide();
+      $('div.alert.alert-info').hide();
+      $('div.alert.alert-success').hide();
+      /* hiding initial elements */
+
+
+      $(document).on('click','button#yes_btn',function(ev){
+
+            var newData = {};
+
+          newData = {
+              "_rev": $('form#about_form').first().data('rev'),
+              "address" :$('form#about_form input#address_input').first().val(),
+              "fax": $('form#about_form input#fax_input').first().val(),
+              "phone": $('form#about_form input#phone_input').first().val(),
+              "description": $('form#about_form textarea#description_input').first().val(),
+              "email": $('form#about_form input#email_input').first().val()
+          };
+
+      $.ajax({
+      type: "PUT",
+      url: 'http://admin:admin@127.0.0.1:5984/electronix_items/about',
+      contentType: "application/json; charset=utf-8",
+      data: JSON.stringify(newData),
+      async: false,
+      error: function(err){
+        alertSuccess('Updated succesfully!');
+      }
+      });
+
+      });
+
+      $(document).on('click','form#about_form button#save_btn',function(ev){
+        ev.preventDefault();
+          $('#sure_modal').modal('toggle');
+      });
+
+    $('#sure_modal').modal('hide');
+
+    $(".alert").alert();
+
+    });
+  	</script>
 
 </body></html>

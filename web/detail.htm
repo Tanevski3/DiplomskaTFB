@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0050)file:///C:/Users/Marjan/Desktop/Twitter/detail.htm -->
+<!-- web/detail.htm -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <title>Electronix</title>
@@ -284,63 +284,72 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="http://getbootstrap.com/2.3.2/examples/carousel.html#">Electronix</a>
-            <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
-            <div class="nav-collapse collapse">
-              <ul class="nav">
-                <li class="active"><a href="http://getbootstrap.com/2.3.2/examples/carousel.html#">Home</a></li>
-                <li><a href="http://getbootstrap.com/2.3.2/examples/carousel.html#about">About</a></li>
-                <li><a href="http://getbootstrap.com/2.3.2/examples/carousel.html#contact">Contact</a></li>
-                <!-- Read about Bootstrap dropdowns at http://twbs.github.com/bootstrap/javascript.html#dropdowns -->
-                <li class="dropdown">
-                  <a href="http://getbootstrap.com/2.3.2/examples/carousel.html#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="http://getbootstrap.com/2.3.2/examples/carousel.html#">Action</a></li>
-                    <li><a href="http://getbootstrap.com/2.3.2/examples/carousel.html#">Another action</a></li>
-                    <li><a href="http://getbootstrap.com/2.3.2/examples/carousel.html#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li class="nav-header">Nav header</li>
-                    <li><a href="http://getbootstrap.com/2.3.2/examples/carousel.html#">Separated link</a></li>
-                    <li><a href="http://getbootstrap.com/2.3.2/examples/carousel.html#">One more separated link</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </div><!--/.nav-collapse -->
-                  <form class="form-search" style="float:right;margin-top:10px;margin-bottom:0px;">
+
+
+                  <form class="form-search" style="float:right;margin-top:10px;margin-bottom:0px;margin-right:5px;">
                     <div class="input-append">
                       <input type="text" class="span2 search-query">
                       <button type="submit" class="btn">Search</button>
                     </div>
                 </form>
+
+            <a class="brand" href="index.htm">Electronix</a>
+            <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
+            <div class="nav-collapse collapse">
+              <ul class="nav">
+                <li class="active"><a href="index.htm">Home</a></li>
+                <li><a href="about.htm">About</a></li>
+                <li><a href="contact.htm">Contact</a></li>
+                <!-- Read about Bootstrap dropdowns at http://twbs.github.com/bootstrap/javascript.html#dropdowns -->
+                <li class="dropdown">
+                  <a href="index.htm" class="dropdown-toggle" data-toggle="dropdown">Category <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    {{
+
+                  for(var i = 0; i < categories.length; i++ ){
+                    out('<li><a href="index.htm?category=' + categories[i].key + '">' + categories[i].key + '</a></li>');
+                  }
+
+                  }}
+                  </ul>
+                </li>
+              </ul>
+            </div><!--/.nav-collapse -->
           </div><!-- /.navbar-inner -->
         </div>
 <!--breadcrumbs-->
 <ul class="breadcrumb">
-  <li><a href="file:///C:/Users/Marjan/Desktop/Twitter/detail.htm#">Home</a> <span class="divider">/</span></li>
-  <li><a href="file:///C:/Users/Marjan/Desktop/Twitter/detail.htm#">Library</a> <span class="divider">/</span></li>
-  <li class="active">Data</li>
+  <li><a href="index.htm">Home</a> <span class="divider">/</span></li>
+  <li class="active">{{ 
+    out(item.value.category); 
+  }}
+  </li>
 </ul>
 <!--breadcrumbs--><!-- /.navbar -->
   
   <div class="well">
   <div class="container-fluid">
   <div class="row-fluid">
-    <div class="span2">
-  <img src="img/download.png" class="img-polaroid">
-    <h4>Item  - hello </h4> 
+     
+        <div class="span2">
+ {{ 
 
-    </div>
-    <div class="span10">Monotonectally facilitate next-generation ROI rather than B2B catalysts for change. Intrinsicly disintermediate principle-centered imperatives vis-a-vis functional systems. Credibly seize compelling partnerships through excellent models. Dramatically utilize parallel catalysts for change and granular processes. Authoritatively leverage other's functionalized users through interoperable platforms.
+  for(var att in item.value._attachments){
+    out('<img src="http://' + dbHostname + ':' + dbPort + '/electronix_items/'+ item.key + '/' + att + '" class="img-polaroid">');
+    break;
+  }
+    out('<br><br><b  style="font-size:20px;" >' + item.value.price + ' $</b>');
 
-Authoritatively impact leveraged testing procedures through quality leadership. Uniquely evisculate business strategic theme areas rather than cost effective outsourcing. Dynamically incentivize accurate interfaces with resource sucking information. Globally iterate robust leadership whereas e-business sources. Authoritatively actualize exceptional bandwidth through web-enabled functionalities.
-
-Efficiently productivate client-based portals whereas B2C architectures. Continually brand dynamic testing procedures after intuitive leadership skills. Assertively formulate.
-        <div class="text-right"><button class="btn"> <i class="icon-shopping-cart"></i>   Buy</button> </div>
-        <span> 999 $</span>
-                
+    out('</div>');
+    out('<div class="span10">');
+        out('<h4>' + item.value.title + '</h4>'); 
+    out(item.value.description);
+out('<p style="font-size:12px;font-style:italic;">'+ item.value.postDate + '</p>');
+  }}
     </div>
 
   </div>
+  <div class="text-right"><button class="btn"> <i class="icon-shopping-cart"></i>   Buy</button> </div>
 </div>
 
 
@@ -350,8 +359,7 @@ Efficiently productivate client-based portals whereas B2C architectures. Continu
   
   <!-- FOOTER -->
 <footer>
-        <p class="pull-right"><a href="http://getbootstrap.com/2.3.2/examples/carousel.html#">Back to top</a></p>
-        <p>© 2013 Company, Inc. · <a href="http://getbootstrap.com/2.3.2/examples/carousel.html#">Privacy</a> · <a href="http://getbootstrap.com/2.3.2/examples/carousel.html#">Terms</a></p>
+        <p>© 2013 Electronix, Inc. · <a href="http://getbootstrap.com/2.3.2/examples/carousel.html#">Privacy</a> · <a href="http://getbootstrap.com/2.3.2/examples/carousel.html#">Terms</a></p>
       </footer>
       </div> <!-- /.container -->
     </div><!-- /.navbar-wrapper -->
@@ -379,7 +387,12 @@ Efficiently productivate client-based portals whereas B2C architectures. Continu
       !function ($) {
         $(function(){
           // carousel demo
-          $('#myCarousel').carousel()
+          $('#myCarousel').carousel();
+          $("#toTop").click(function(){
+
+            $('html, body').animate({ scrollTop: 1 }, 'slow');
+          
+          });
         })
       }(window.jQuery)
     </script>

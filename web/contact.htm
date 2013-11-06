@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!-- web/index.htm -->
+<!-- web/contact.htm -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>Electronix</title>
+    <title>Electronix - Contact</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -264,7 +264,7 @@
       <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://getbootstrap.com/2.3.2/assets/ico/apple-touch-icon-72-precomposed.png">
                     <link rel="apple-touch-icon-precomposed" href="http://getbootstrap.com/2.3.2/assets/ico/apple-touch-icon-57-precomposed.png">
                                    <link rel="shortcut icon" href="http://getbootstrap.com/2.3.2/assets/ico/favicon.png">
-  <style id="holderjs-style" type="text/css">.holderjs-fluid {font-size:16px;font-weight:bold;text-align:center;font-family:sans-serif;margin:0}</style><meta name="chromesniffer" id="chromesniffer_meta" content="{&quot;Bootstrap&quot;:-1,&quot;jQuery&quot;:&quot;1.9.1&quot;}"><script type="text/javascript" src="chrome-extension://homgcnaoacgigpkkljjjekpignblkeae/detector.js"></script></head>
+  <style id="holderjs-style" type="text/css">.holderjs-fluid {font-size:16px;font-weight:bold;text-align:center;font-family:sans-serif;margin:0}.holderjs-fluid {font-size:16px;font-weight:bold;text-align:center;font-family:sans-serif;margin:0}</style><meta name="chromesniffer" id="chromesniffer_meta" content="{}"><script type="text/javascript" src="chrome-extension://homgcnaoacgigpkkljjjekpignblkeae/detector.js"></script></head>
 
   <body cz-shortcut-listen="true">
 
@@ -285,10 +285,11 @@
               <span class="icon-bar"></span>
             </button>
 
-                  <form method="GET" action="index.htm" class="form-search" style="float:right;margin-top:10px;margin-bottom:0px;margin-right:5px;">
+
+                  <form class="form-search" style="float:right;margin-top:10px;margin-bottom:0px;margin-right:5px;">
                     <div class="input-append">
-                      <input type="text" class="span2 search-query" name="search">
-                      <button type="submit" class="btn" >Search</button>
+                      <input type="text" class="span2 search-query">
+                      <button type="submit" class="btn">Search</button>
                     </div>
                 </form>
 
@@ -296,15 +297,14 @@
             <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
             <div class="nav-collapse collapse">
               <ul class="nav">
-                <li class="active"><a href="index.htm">Home</a></li>
+                <li><a href="index.htm">Home</a></li>
                 <li><a href="about.htm">About</a></li>
-                <li><a href="contact.htm">Contact</a></li>
+                <li class="active"><a href="contact.htm">Contact</a></li>
                 <!-- Read about Bootstrap dropdowns at http://twbs.github.com/bootstrap/javascript.html#dropdowns -->
                 <li class="dropdown">
                   <a href="index.htm" class="dropdown-toggle" data-toggle="dropdown">Category <b class="caret"></b></a>
                   <ul class="dropdown-menu">
-
-                  {{
+                    {{
 
                   for(var i = 0; i < categories.length; i++ ){
                     out('<li><a href="index.htm?category=' + categories[i].key + '">' + categories[i].key + '</a></li>');
@@ -313,193 +313,104 @@
                   }}
                   </ul>
                 </li>
-                <li><a href="#chatModal" data-toggle="modal">Launch chat</a></li>
               </ul>
             </div><!--/.nav-collapse -->
-
           </div><!-- /.navbar-inner -->
-        </div><!-- /.navbar -->
+        </div>
+<!--breadcrumbs-->
+<ul class="breadcrumb">
+  <li class="active"> Contact </li>
+</ul>
+<!--breadcrumbs--><!-- /.navbar -->
+  
+  <div class="well">
+  <div class="container-fluid">
+  <div class="row-fluid">
+     
+        <div class="span2">
+ <form enctype="text/plain" action="mailto:marjantanevski@gmail.com"  method="post">   
+                    <div class="form_row">
+                    <label class="contact"><strong>Name:</strong></label>
+                    <input type="text" class="contact_input" name="name" id="name" maxlength="45" required/>
+                    </div>  
 
-      </div> <!-- /.container -->
-    </div><!-- /.navbar-wrapper -->
+                    <div class="form_row">
+                    <label class="contact"><strong>Email:</strong></label>
+                    <input type="email" class="contact_input" name="email" id="email" maxlength="45" />
+                    </div>
 
-<!-- Modal -->
-<div id="chatModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Chat room</h3>
-  </div>
-  <div class="modal-body">
-    <div class="well">
+
+                    <div class="form_row">
+                    <label class="contact"><strong>Phone:</strong></label>
+                    <input type="tel" class="contact_input"  name="phone" id="phone" maxlength="15"/>
+                    </div>
+                    
+                    <div class="form_row">
+                    <label class="contact"><strong>Company:</strong></label>
+                    <input type="text" class="contact_input" name="company" id="company" maxlength="45"/>
+                    </div>
+
+
+                    <div class="form_row">
+                    <label class="contact"><strong>Message:</strong></label>
+                    <textarea class="contact_textarea" name="message" id="message" maxlength="1000" required></textarea>
+                    </div>
+
+                    
+                     <div class="form_row">
+                    <input type="submit" class="btn" value="Send">
+                    </div>      
+                    </form> 
     </div>
-    <input type="text" placeholder="Don't spam chat... "  id="chatTxt" >
-    <br>
-    <button type="submit" class="btn" id="chatBtn" >Submit</button>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <!--<button class="btn btn-primary">Save changes</button>-->
+
   </div>
 </div>
 
-    <!-- Carousel
-    ================================================== -->
-    <div id="myCarousel" class="carousel slide">
-      <div class="carousel-inner">
-        <div class="item active">
-          <img src="img/slide-01.jpg" alt="">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>We have the best prices.</h1>
-              <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/slide-02.jpg" alt="">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Yet another promotion.</h1>
-              <p class="lead">Seamlessly leverage existing competitive schemas before emerging data. Distinctively leverage.</p>
-              <a class="btn btn-large btn-primary" href="index.htm">Learn more</a>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="img/slide-03.jpg" alt="">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>One more for good measure.</h1>
-              <p class="lead">Assertively parallel task top-line process improvements rather than high-quality communities. Credibly administrate stand-alone materials.</p>
-              <a class="btn btn-large btn-primary" href="index.htm">Browse gallery</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <a class="left carousel-control" href="http://getbootstrap.com/2.3.2/examples/carousel.html#myCarousel" data-slide="prev">‹</a>
-      <a class="right carousel-control" href="http://getbootstrap.com/2.3.2/examples/carousel.html#myCarousel" data-slide="next">›</a>
-    </div><!-- /.carousel -->
 
+</div>
 
-
-    <!-- Marketing messaging and featurettes
-    ================================================== -->
-    <!-- Wrap the rest of the page in another container to center all the content. -->
-
-    <div class="container marketing">
-
-      <!-- Three columns of text below the carousel -->
-      <div class="row">
-        {{
-          if(items.length > 0){
-            for(var i=0; i< items.length; i++){
-            if(items[i].value.stock > 0){
-            out('<div class="span4" style="height:400px;">');
-
-            for(var att in items[i].value._attachments){
-
-            out('<img class="img-circle" data-src="holder.js/140x140" alt="140x140" style="width: 140px; height: 140px;" src="http://' + dbHostname + ':' + dbPort + '/electronix_items/'+ items[i].value._id + '/' + att + '">');
-            break;
-            }
-            out('<h2>'+ items[i].value.title + '</h2>');
-            out('<p>'+ items[i].value.description + '</p>');
-            
-            out('<p class="lead" >' + items[i].value.price +' $</p>');
-            out('<p><a class="btn" href="detail.htm?_id=' + items[i].value._id + '">View details »</a></p>');
-            out('</div><!-- /.span4 -->');
-              }
-            }
-          }else{
-            out('<h2>'+noItemsFound + '</h2>');
-          }
-        }}
-      </div><!-- /.row -->
-
-
-      <!-- START THE FEATURETTES -->
-
-      <hr class="featurette-divider">
-
-      <div class="featurette">
-        <img class="featurette-image pull-right" src="img/browser-icon-chrome.png">
-        <h2 class="featurette-heading">First featurette headling. <span class="muted">It'll blow your mind.</span></h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-      </div>
-
-      <hr class="featurette-divider">
-
-      <div class="featurette">
-        <img class="featurette-image pull-left" src="img/browser-icon-firefox.png">
-        <h2 class="featurette-heading">Oh yeah, it's that good. <span class="muted">See for yourself.</span></h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-      </div>
-
-      <hr class="featurette-divider">
-
-      <div class="featurette">
-        <img class="featurette-image pull-right" src="img/browser-icon-safari.png">
-        <h2 class="featurette-heading">And lastly, this one. <span class="muted">Checkmate.</span></h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-      </div>
-
-      <hr class="featurette-divider">
-
-      <!-- /END THE FEATURETTES -->
-
-
-      <!-- FOOTER -->
-      <footer>
-        <p class="pull-right" id="toTop"><a href="#">Back to top</a></p>
-        <p>© 2013 Company, Inc. · <a href="http://getbootstrap.com/2.3.2/examples/carousel.html#">Privacy</a> · <a href="http://getbootstrap.com/2.3.2/examples/carousel.html#">Terms</a></p>
+ 
+  
+  <!-- FOOTER -->
+<footer>
+        <p>© 2013 Electronix, Inc. · <a href="http://getbootstrap.com/2.3.2/examples/carousel.html#">Privacy</a> · <a href="http://getbootstrap.com/2.3.2/examples/carousel.html#">Terms</a></p>
       </footer>
+      </div> <!-- /.container -->
+    </div><!-- /.navbar-wrapper -->
 
-    </div><!-- /.container -->
 
 
-    <input type="hidden" value="{{
-    out(hostname);
-    }}" id="hostname" name="hostname" >
+   
+
+
+
+
+      
+      
+
+    <!-- /.container -->
+
+
+
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
     <script>
       !function ($) {
         $(function(){
           // carousel demo
           $('#myCarousel').carousel();
-
           $("#toTop").click(function(){
 
             $('html, body').animate({ scrollTop: 1 }, 'slow');
           
           });
-
-      });
-      };
-      //(window.jQuery);
+        })
+      }(window.jQuery)
     </script>
     <script src="js/holder.js"></script>
   
-    <!-- Chat client -->
-    <script src="/socket.io/socket.io.js"></script>
-   <script type="text/javascript">
-        
-      $(function(){
-          var socketio = io.connect("127.0.0.1");
-          socketio.on("message_to_client", function(data) {
-            var dt = new Date();
-              $("#chatModal div.modal-body div.well").append('<p><b>[' + dt.getHours() +':'+dt.getMinutes() + ':' + dt.getSeconds() + '] </b>' + data['message'] +'</p>');
-          });
-          $("#chatModal div.modal-body #chatBtn").on('click', function(){
-            var chatTxt = ' said: ' + $("#chatModal div.modal-body #chatTxt").first().val();
-              socketio.emit("message_to_server", { message : chatTxt });
-          });
-          
-              
-      });
-    </script>
 
 </body></html>

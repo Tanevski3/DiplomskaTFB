@@ -71,6 +71,14 @@ function isUndefinedOrNull(object){
 	else 
 		return false;
 }
+function getErrorString(___error){
+	var __errString = ''; // making sure an exception is not thrown when undefined or null values are passed
+	var __errString = '<html><head><title>Error report</title><style>h1{background-color: lightcoral;font-size:25px;}b{background-color: lightcoral;font-size:18px;}span, p{background-color: beige;margin: 0px;padding: 0px;font-size:18px;}</style></head><body><h1> HTTP Status 500 - ' +
+	___error.name + ' ' + ___error.message + '</h1><br><p><b>type</b><span>&nbsp;</span> ' + ___error.type + ' </p><br><p><b>arguments</b><span>&nbsp;</span> ' +
+	___error.arguments + ' </p><br><p><b>message</b><span>&nbsp;</span> ' + ___error.message + ' </p><br><p><b>exception</b><br><span>&nbsp;</span> ' +
+	___error.stack +'</p></body></html>';
+	return __errString;
+}
 function validateConfig(cfg){
 
 var valid = false; // used for overall validation
@@ -204,14 +212,9 @@ console.log('**Validation of configuration started**');
       	if(cfg.couchDb.hasOwnProperty('hostname')){
 
       		if(cfg.couchDb['hostname'].length > 0){
-      			if(/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(cfg.couchDb['hostname']) === true){
+
 					valid = true;
-					console.log('couchDb.hostname validation: OK!');
-				}
-				else{
-					valid = false;
-					console.log('couchDb.hostname validation: the value does not match the format. E.g. \'127.0.0.1\' . ');
-				}
+
       		}else{
       			valid = false;
       			console.log('couchDb.hostname validation: no value could be read.');
@@ -224,7 +227,7 @@ console.log('**Validation of configuration started**');
 
       if(cfg.couchDb.hasOwnProperty('port')){
 
-      		if(cfg.couchDb['port'] > 0){
+      		if(cfg.couchDb['port'] && cfg.couchDb['port'] > 0){
 					valid = true;
 					console.log('couchDb.port validation: OK!');
       		}else{
@@ -326,7 +329,7 @@ module.exports.config = config; // exporting config
 
 
 // initiate requests listening
-server.on('request',function (_request, _response) {
+var srv = server.on('request',function (_request, _response) {
 
 var d = dmn.create(); // domain will be created on each request
 
@@ -339,22 +342,21 @@ d.on('error',function(err){ //stopping it here
 		if(!replied){
 			replied = true;
 			_response.writeHead(500);
-			_response.end(err.message);
+			_response.end(getErrorString(err));
 		}
 		else {
 		console.log('Error message intercepted from domain:' + 
-			'\n %s: %s. \nFile: %s.\nCaller: %s.\nLine number: %s',err.name, err.message, err.fileName,err.caller, err.lineNumber);
+			'.\n %s: %s.',err.name, err.message);
 			_response.writeHead(500);
-			_response.end(err.message);
+			_response.end(getErrorString(err));
 		}
 });
 
 d.run(function(){
 try{
-parsedUrl = url.parse(_request.url.toString(), false, true);
+parsedUrl = url.parse(_request.url.toString(), true, true);
 }catch(err){
-	console.log('Error occured during the parsing of the url' + 
-			'\n %s: %s. \nFile: %s.\nCaller: %s.\nLine number: %s',err.name, err.message, err.fileName,err.caller, err.lineNumber);
+_response.end(getErrorString(err));
 }
 var reqUrl = parsedUrl.pathname;
 
@@ -469,14 +471,10 @@ console.log(reqUrl);
   				   	reqUrl = reqUrl.replace(/\.html*/,'');
   				   }
 			   	  _response.render = function(__path, __model){
-			   	  	try{
+			   	  	
 			  		if(!(__path.indexOf('/') === 0 || __path.indexOf('\\') === 0))
 			  			__path =  "/" + __path;
-  					}
-  					catch(err){
-  						console.log('An error has occured during __path ' +
-	    	  						'.\n %s: %s. \nFile: %s.\nCaller: %s.\nLine number: %s',err.name, err.message, err.fileName,err.caller, err.lineNumber);
-  					}
+  			
 
 
 			  			fs.readFile(__dirname + __path,'utf-8', d.intercept(function(__data) {
@@ -484,7 +482,7 @@ console.log(reqUrl);
 	    	  					console.log('Can\'t read file ' + __dirname + __path);
 	    	  					console.log(err);
 	    	  					throw err;
-	    	  				}*/
+	    	  				}// this doesnt works*/
 
 	    	  			if(!isUndefinedOrNull(__model)){
 
@@ -498,7 +496,7 @@ console.log(reqUrl);
      						}
      						catch(err){
      							console.log('An error has occured during function out(input) execution ' +
-	    	  						'.\n %s: %s. \nFile: %s.\nCaller: %s.\nLine number: %s',err.name, err.message, err.fileName,err.caller, err.lineNumber);
+	    	  						'.\n %s: %s. \nSTACK\n: ',err.name, err.message, err.stack);
   							}
 						}
 						try{
@@ -510,40 +508,30 @@ console.log(reqUrl);
 	    	  					}
 	    	  					catch(err){
 	    	  						console.log('An error has occured during the parsing of __model[m]' +
-	    	  									'.\n %s: %s. \nFile: %s.\nCaller: %s.\nLine number: %s',err.name, err.message, err.fileName,err.caller, err.lineNumber);
+	    	  									'.\n %s: %s. \nSTACK\n: ',err.name, err.message, err.stack);
 	    	  					}
 	    	  				}
 	    	  			}
 	    	  			catch(err){
 	    	  				console.log('An error has occured during the iterating of __model' +
-	    	  									'.\n %s: %s. \nFile: %s.\nCaller: %s.\nLine number: %s',err.name, err.message, err.fileName,err.caller, err.lineNumber);
+	    	  									'.\n %s: %s. \nSTACK\n: ',err.name, err.message, err.stack);
 	    	  			}
 
 	    	  			var doubleSquirlyBracketRegEx = /\{\{([\s\S]+?)\}\}/; // be carefull when using global flag - not all regexes are found
 	    	  			var squirlyBrackets;
-						try{
+						
 							while ((squirlyBrackets = doubleSquirlyBracketRegEx.exec(__data)) !== null)
 							{
 
 								squirlies = new Array();
-								try{
 								eval(squirlyBrackets[0]);
   									/*var msg = "Found " + squirlyBrackets[0] + ".  ";
   									msg += "Next match starts at " + doubleSquirlyBracketRegEx.lastIndex;
   									console.log(msg);*/
   								__data = __data.replace(squirlyBrackets[0],squirlies.join('\n'));
-  								}
-  								catch(err){
-	    	  						console.log('An error has occured during the evaluation with the function eval() ' +
-	    	  									'.\n %s: %s. \nFile: %s.\nCaller: %s.\nLine number: %s',err.name, err.message, err.fileName,err.caller, err.lineNumber);
-	    	  					}
+  								
 							}
-						}
-						catch(err){
-	    	  				console.log('An error has occured during the execution of the \'while\' executon doubleSquirlyBracketRegEx.exec(__data) ' +
-	    	  									'.\n %s: %s. \nFile: %s.\nCaller: %s.\nLine number: %s',err.name, err.message, err.fileName,err.caller, err.lineNumber);
-	    	  			}
-
+						
 						}
 	    	  			_response.writeHead(200, {'Content-Type': 'text/html'});
 	    	  			_response.end(__data);
@@ -565,29 +553,28 @@ console.log(reqUrl);
 		 		_request.hash = parsedUrl.hash;
 		 		_request.upload = new events.EventEmitter();
 		 		_request.body = null;
+		 		debugger;
+
 		 		}
 		 		catch(err){
 	    	  				console.log('An error has occured during the assigning of request properties ' +
-	    	  									'.\n %s: %s. \nFile: %s.\nCaller: %s.\nLine number: %s',err.name, err.message, err.fileName,err.caller, err.lineNumber);
+	    	  									'.\n %s: %s.',err.name, err.message);
 	    	  	}
 
 		 		switch(_request.method.toUpperCase()){
 		 			case 'GET':
 		 				if(module.exports.emit(reqUrl, _request, _response) === false){
 
-							fs.readFile(__dirname + config.page404, d.intercept(function(err, data) {
-								if(err){
-	    	  						console.log('An error has occured during the reading of file ' +
-	    	  									'.\n %s: %s. \nFile: %s.\nCaller: %s.\nLine number: %s',err.name, err.message, err.fileName,err.caller, err.lineNumber);
-	    	  					}
+							fs.readFile(__dirname + config.page404, d.intercept(function(data) {
+
 								_response.writeHead(200, {'Content-Type': 'text/html'});
 	    	  					_response.end(data);
 			  				}));
 						}
 		 			break;
 		 			case 'POST':
-		 			//http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js
 
+		 			//http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js
 		 			if(_request.headers['content-type'].indexOf(';') === -1)
 		 			    var contentTypes = _request.headers['content-type'].split(';');
 		 			else
@@ -615,21 +602,28 @@ console.log(reqUrl);
 		 			else{
 
 		 			var bodyData = '';
-		 			_request.on('data', d.intercept(function (__chunk) {
+		 			_request.on('data', function(__chunk){
 		 			    
             			bodyData += __chunk;
            			 		// 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
             				if (bodyData.length > 1e6) { 
                 				// FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST
                 			console.log('FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST');
-                			_request.connection.destroy();
+                				_request.connection.destroy();
             				}
-        			})); // _request.on('data'...
+        			}); // _request.on('data'...
 
         			_request.on('end', d.intercept(function () {
         				_request.body = qs.parse(bodyData);
             			// use POST
-	     				module.exports.emit(reqUrl, _request, _response);
+	     				if(module.exports.emit(reqUrl, _request, _response) === false){
+
+							fs.readFile(__dirname + config.page404, d.intercept(function(data) {
+
+								_response.writeHead(200, {'Content-Type': 'text/html'});
+	    	  					_response.end(data);
+			  				}));
+						}
         			}));
 
         		    }//else
@@ -655,22 +649,23 @@ console.log(reqUrl);
 
  }).listen(config.port, config.hostname);
 
+
 console.log('['+new Date().toUTCString()+']: '
 		+ 'Server started and running at %s:%s', config.hostname, config.port);
 
 server.on('error',function(err){
 	console.log('['+new Date().toUTCString()+']:' +
-		'\n %s: %s. \nFile: %s.\nCaller: %s.\nLine number: %s',err.name, err.message, err.fileName,err.caller, err.lineNumber);
+		'.\n %s: %s.',err.name, err.message);
 });
 
 module.exports.on('error', function(err){
 	console.log('module.exports message intercepted:' + 
-		'\n %s: %s. \nFile: %s.\nCaller: %s.\nLine number: %s',err.name, err.message, err.fileName,err.caller, err.lineNumber);
+		'.\n %s: %s.',err.name, err.message);
 });
 
 process.on('uncaughtException',function(err){
 	console.log('uncaughtException intercepted:' + 
-		'\n %s: %s. \nFile: %s.\nCaller: %s.\nLine number: %s',err.name, err.message, err.fileName,err.caller, err.lineNumber);
+		'.\n %s: %s.',err.name, err.message);
 });
 
 }// configuration processing
@@ -681,14 +676,14 @@ else{
 
 }
 
-
 config.couchDb.delete = function(__pathToDocument){
+
 var __deleteDbEmitter = {};
 
     if( !isUndefinedOrNull(__pathToDocument)){
 
     var __final = '';
-	var __deleteDbEmitter = new events.EventEmitter();
+    var __deleteDbEmitter = new events.EventEmitter();
 
         var options = {  
         host: config.couchDb.hostname,
@@ -702,27 +697,28 @@ var __deleteDbEmitter = {};
             _deleteRes.setEncoding('utf-8');
             console.log("Got response from database with code: " + _deleteRes.statusCode + ' and headers '+ JSON.stringify(_deleteRes.headers) +'\n');
             _deleteRes.on('error', function(err){
-            	__deleteDbEmitter.emit('error', err);
+                __deleteDbEmitter.emit('error', err);
             }).on('data', function(__chunk){
-            	__deleteDbEmitter.emit('data', __chunk);
+                __deleteDbEmitter.emit('data', __chunk);
             }).on('end',function(){
-            	__deleteDbEmitter.emit('end');
+                __deleteDbEmitter.emit('end');
             });   
         });
 
         return __deleteDbEmitter;  
 
 }
-		return null;
+        return null;
 };
 
 config.couchDb.post = function(__postData,__pathToDocument){
+
  var __postDbEmitter = {};
 
     if( !isUndefinedOrNull(__pathToDocument)){
 
     var __final = '';
-	var __postDbEmitter = new events.EventEmitter();
+    var __postDbEmitter = new events.EventEmitter();
 
         var options = {  
         host: config.couchDb.hostname,
@@ -732,22 +728,27 @@ config.couchDb.post = function(__postData,__pathToDocument){
         headers: { "Content-Type": "application/json"},
         method: 'GET' 
         };   
+
+        if(config.couchDb.port === null || config.couchDb.port ==='undefined' ){
+            console.log('DID I GOT HERE??');
+            delete options['port'];
+        }
         http.get(options, function(_putRes) {  
             _postRes.setEncoding('utf-8');
             console.log("Got response from database with code: " + _postRes.statusCode + ' and headers '+ JSON.stringify(_postRes.headers) +'\n');
             _postRes.on('error', function(err){
-            	__postDbEmitter.emit('error', err);
+                __postDbEmitter.emit('error', err);
             }).on('data', function(__chunk){
-            	__postDbEmitter.emit('data', __chunk);
+                __postDbEmitter.emit('data', __chunk);
             }).on('end',function(){
-            	__postDbEmitter.emit('end');
+                __postDbEmitter.emit('end');
             });   
         });
 
         return __postDbEmitter;  
 
 }
-		return null;
+        return null;
 };
 
 config.couchDb.put = function(__postData,__pathToDocument){
@@ -757,7 +758,7 @@ config.couchDb.put = function(__postData,__pathToDocument){
     if( !isUndefinedOrNull(__pathToDocument)){
 
     var __final = '';
-	var __putDbEmitter = new events.EventEmitter();
+    var __putDbEmitter = new events.EventEmitter();
 
         var options = {  
         host: config.couchDb.hostname,
@@ -771,18 +772,18 @@ config.couchDb.put = function(__postData,__pathToDocument){
             _putRes.setEncoding('utf-8');
             console.log("Got response from database with code: " + _putRes.statusCode + ' and headers '+ JSON.stringify(_putRes.headers) +'\n');
             _putRes.on('error', function(err){
-            	__putDbEmitter.emit('error', err);
+                __putDbEmitter.emit('error', err);
             }).on('data', function(__chunk){
-            	__putDbEmitter.emit('data', __chunk);
+                __putDbEmitter.emit('data', __chunk);
             }).on('end',function(){
-            	__putDbEmitter.emit('end');
+                __putDbEmitter.emit('end');
             });   
         });
 
         return __putDbEmitter;  
 
 }
-		return null;
+        return null;
 };
 
 config.couchDb.get = function(__pathToDocument){
@@ -792,33 +793,37 @@ config.couchDb.get = function(__pathToDocument){
     if( !isUndefinedOrNull(__pathToDocument)){
 
     var __final = '';
-	var __getDbEmitter = new events.EventEmitter();
+    var __getDbEmitter = new events.EventEmitter();
 
         var options = {  
         host: config.couchDb.hostname,
-        port: config.couchDb.port,
         path: __pathToDocument,
+        port: config.couchDb.port,
         auth: config.couchDb.user +':' + config.couchDb.pass,
         headers: { "Content-Type": "application/json"},
         method: 'GET' 
-        };   
+        };
+
         http.get(options, function(_getRes) {  
             _getRes.setEncoding('utf-8');
             console.log("Got response from database with code: " + _getRes.statusCode + ' and headers '+ JSON.stringify(_getRes.headers) +'\n');
             _getRes.on('error', function(err){
-            	__getDbEmitter.emit('error', err);
+                __getDbEmitter.emit('error', err);
             }).on('data', function(__chunk){
-            	__getDbEmitter.emit('data', __chunk);
+                __getDbEmitter.emit('data', __chunk);
             }).on('end',function(){
-            	__getDbEmitter.emit('end');
+                __getDbEmitter.emit('end');
             });   
         });
 
         return __getDbEmitter;  
 
 }
-		return null;
+        return null;
 };
 
 module.exports.couchDb = config.couchDb;
+module.exports.srv = server;
 }; // module.exports ends here
+
+

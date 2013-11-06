@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<!-- web/panel.htm -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Admin panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+      .blu_row{
+	  background-color:#0075B0;
+	  color: white;
+	  }
+	   tbody tr {
+	     cursor: pointer;
+		}
+    #save_btn{
+      display: hidden;
+    }
+
+    </style>
+    <link href="http://127.0.0.1:4040/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://getbootstrap.com/2.3.2/assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://getbootstrap.com/2.3.2/assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://getbootstrap.com/2.3.2/assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="http://getbootstrap.com/2.3.2/assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="http://getbootstrap.com/2.3.2/assets/ico/favicon.png">
+  <meta name="chromesniffer" id="chromesniffer_meta" content="{}"><script type="text/javascript" src="chrome-extension://homgcnaoacgigpkkljjjekpignblkeae/detector.js"></script><meta name="chromesniffer" id="chromesniffer_meta"><script type="text/javascript" src="chrome-extension://homgcnaoacgigpkkljjjekpignblkeae/detector.js"></script><style>[touch-action="none"]{ -ms-touch-action: none; touch-action: none; }[touch-action="pan-x"]{ -ms-touch-action: pan-x; touch-action: pan-x; }[touch-action="pan-y"]{ -ms-touch-action: pan-y; touch-action: pan-y; }[touch-action="scroll"],[touch-action="pan-x pan-y"],[touch-action="pan-y pan-x"]{ -ms-touch-action: pan-x pan-y; touch-action: pan-x pan-y; }</style></head>
+
+  <body cz-shortcut-listen="true" style="">
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="panel.htm">Logged in as {{
+                out(user.firstName);  }}
+              </a>
+          <div class="nav-collapse collapse">
+              <form class="navbar-text pull-right" action="admin.htm"  method="post" style="margin:0px;padding:0px;">
+                <button name="logout" type="submit" class="btn btn-link" style="color:white;">Logout</button>
+            </form>
+            
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+              
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list" >
+              <li class="nav-header">Dashboard</li>
+              <li id="nav_users" ><a href="panel_users.htm">Users</a></li>
+              <li id="nav_items"><a href="panel_items.htm">Items</a></li>
+              <li class="active" id="nav_categories"><a href="panel_categories.htm">Categories</a></li>
+              <li id="nav_about"><a href="panel_about.htm">About</a></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <script type="text/javascript"> 
+
+        </script>
+        <div class="span9">
+		<div class="btn-group">
+ 		 <button id="new_btn" class="btn" data-toggle="modal">New</button>
+  		 <button id="edit_btn" class="btn" data-toggle="modal">Edit</button>
+ 		 <button id="delete_btn" class="btn" data-toggle="modal">Delete</button>
+		</div>
+		<br>
+		
+		<div id="new_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="new_category_modal_label" aria-hidden="true">
+  			<div class="modal-header">
+    			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    			<h4 id="new_category_modal_label">Create a new category</h4>
+  			</div>
+        <form>
+  			<div class="modal-body">
+    			<label for="category_name_input">Category name:</label> <input required="" id="category_name_input" type="text" placeholder="Enter category name...">
+  			</div>
+  			<div class="modal-footer">
+    			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    			<button id="create_btn" type="submit" class="btn btn-primary">Save changes</button>
+
+  			</div>
+      </form>
+		</div>
+
+    <div id="edit_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="edit_category_modal_label" aria-hidden="true">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 id="edit_category_modal_label">Edit this category</h4>
+        </div>
+        <form>
+        <div class="modal-body">
+          <label for="category_name_input">Category name:</label> <input required="" id="category_name_input" type="text" placeholder="Enter category name...">
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+          <button id="save_btn" type="submit" class="btn btn-primary">Save changes</button>
+
+        </div>
+      </form>
+    </div>
+		
+		<div id="delete_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="delete_user_modal_label" aria-hidden="true" style="display: none;">
+  			<div class="modal-body">
+    			<p>Are you sure you want to delete this category(ies)?</p>
+  			</div>
+  			<div class="modal-footer">
+    			<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    			<button id="yes_btn" class="btn btn-danger" data-dismiss="modal">Yes</button>
+  			</div>
+		</div>
+
+		<p></p>   
+
+ <table class="table table-bordered" style="width: 200px;">
+          <thead>
+          <tr>
+                  <td>Name</td>
+          </tr>
+          </thead>
+          <tbody data-rev="{{ out(category._rev); }}">
+                {{
+            
+              for(var i = 0; i < category.categories.length; i++ ){
+                  out('<tr><td>' + category.categories[i] +  '</td></tr>');
+                }
+
+              }}
+                
+                  </tbody>
+          <tfoot>
+          </tfoot>
+ </table>
+
+<div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <strong>Warning!</strong> Best check yo self, you're not looking too good.
+</div>
+
+<div class="alert alert-info">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+</div>
+
+<div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <strong>Well done!</strong> <p>You successfully read this important alert message.</p>
+</div>
+                
+          
+          </div>
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>© Electronix 2013</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  	<script type="text/javascript">
+
+
+  	$(document).ready(function() {
+
+      /* hiding initial elements */
+      $('div.alert.alert-error').hide();
+      $('div.alert.alert-info').hide();
+      $('div.alert.alert-success').hide();
+      /* hiding initial elements */
+
+/* functions and constructors */
+        var deleteCategories = function(){
+
+        var itemsToRemove = $('table tr.blu_row');
+
+        itemsToRemove.remove();
+
+        var newArray = [];
+
+        $('table tbody tr').each(function(){
+            newArray.push($(this).find('td').first().text());
+        });
+
+
+        var newData = {
+            "_rev": $('table tbody').first().data('rev'),
+            "categories": newArray
+        };
+
+
+      var res = $.ajax({
+      type: "PUT",
+      url: 'http://admin:admin@127.0.0.1:5984/electronix_items/category',
+      contentType: "application/json; charset=utf-8",
+      data: JSON.stringify(newData),
+      async: false,
+      error: function(err){
+      }
+      });
+
+      res = JSON.parse(res.responseText);
+      $('table tbody').first().data('rev', res['rev']);
+
+        makeRow();
+
+        }
+
+       var updateCategories = function(){
+
+        var newArray = [];
+
+        $('table tbody tr').each(function(){
+            newArray.push($(this).find('td').first().text());
+        });
+
+
+        var newData = {
+            "_rev": $('table tbody').first().data('rev'),
+            "categories": newArray
+        };
+
+
+      var res = $.ajax({
+      type: "PUT",
+      url: 'http://admin:admin@127.0.0.1:5984/electronix_items/category',
+      contentType: "application/json; charset=utf-8",
+      data: JSON.stringify(newData),
+      async: false,
+      error: function(err){
+      }
+      });
+
+      res = JSON.parse(res.responseText);
+      $('table tbody').first().data('rev', res['rev']);
+
+        makeRow();
+
+        };
+
+        var makeRow = function(){
+
+         if($('table').children('tbody').children('tr').hasClass('blu_row')){
+            $('#delete_btn').removeAttr('disabled');
+            }
+            else{
+              $('#delete_btn').attr('disabled','disabled');
+            }
+            if($('table').children('tbody').children('.blu_row').length === 1 && $('table').children('tbody').children('.blu_row').length !== 0){
+            $('#edit_btn').removeAttr('disabled');
+            }
+            else{
+              $('#edit_btn').attr('disabled','disabled');
+          }
+        };
+
+/* functions and constructors */
+
+      $(document).on('click','button#new_btn',function(ev){
+        $('#new_modal').modal('toggle');
+          makeRow();
+      });
+
+      $(document).on('click','button#edit_btn',function(ev){
+        $('div#edit_modal').modal('toggle');
+        $('div#edit_modal').first().find('input#category_name_input').val($('table tr.blu_row').first().find('td').first().text());
+          makeRow();
+      });
+
+      var itemsToRemove = {};
+      $(document).on('click','button#delete_btn',function(ev){
+        $('#delete_modal').modal('toggle');
+        makeRow();
+      });
+
+      $(document).on('click','button#yes_btn',function(ev){
+          deleteCategories();
+          makeRow();
+      });
+
+  	  // table click listener that handles the color change and button availability
+  		$('table').children('tbody').children('tr').on('click',function(){
+  		  $(this).toggleClass('blu_row');
+        makeRow();
+  		});
+
+       $('#save_btn').on('click',function(ev){
+
+        if($('div#edit_modal #category_name_input').first().val()){
+
+        var selecedCategory = $('table tr.blu_row').first().find('td').first();
+
+        selecedCategory.text($('div#edit_modal #category_name_input').first().val());
+
+        updateCategories();
+
+        }
+
+      $(document).on('click','table tbody tr:last',function(){
+          $(this).toggleClass('blu_row');
+          makeRow();
+      });
+
+      });
+
+      $('#create_btn').on('click', function(ev){
+
+        if($('div#new_modal #category_name_input').first().val()){
+
+        if($('table').children('tbody').has('tr') === true){
+
+           $('table').children('tbody').children('tr').last().after(
+                   "<tr  class=\"\" >" +
+                     "<td>"+$('#category_name_input').val()+"</td>" +
+                   "</tr>"
+           );
+        }else{
+            $('table').children('tbody').append(
+                   "<tr  class=\"\" >" +
+                     "<td>"+$('#category_name_input').val()+"</td>" +
+                   "</tr>"
+           );
+           
+        }
+
+        updateCategories();
+        }
+
+      $(document).on('click','table tbody tr:last',function(){
+          $(this).toggleClass('blu_row');
+          makeRow();
+      });
+
+
+    });
+
+    $(".alert").alert();
+
+    $('#new_modal').modal('hide');
+        
+    $('#edit_btn').attr('disabled','disabled');
+    $('#delete_btn').attr('disabled','disabled');
+
+    });
+  	</script>
+
+</body></html>
